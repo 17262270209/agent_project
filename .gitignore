@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.idea/
+.vscode/
+*.log
+chat_history/session_*
+chat_history/user_*
+vector_stores/default_knowledge_base/
+vector_stores/default_knowledge_base_knowledge_base/
+.env
+*.bat.bak

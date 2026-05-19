@@ -1,0 +1,53 @@
+# config/__init__.py
+"""
+配置模块
+
+提供项目的所有配置参数，包括：
+- 文档清洗配置
+- 文档加载器配置
+- 向量存储配置
+"""
+
+from .cleaning_config import (
+    HEADER_FOOTER_PATTERNS,
+    GARBLED_PATTERNS,
+    TEXT_SEPARATORS,
+    DEFAULT_CHUNK_SIZE,
+    DEFAULT_CHUNK_OVERLAP,
+    CLEANING_CONFIG
+)
+
+from .loader_config import (
+    PDF_LOADER_CONFIG,
+    TEXT_LOADER_CONFIG,
+    WORD_LOADER_CONFIG,
+    UNIVERSAL_LOADER_CONFIG,
+    BATCH_LOADER_CONFIG,
+    LOADER_CONFIG
+)
+
+from .vector_store_config import (
+    EMBEDDING_CONFIG,
+    FAISS_CONFIG,
+    RETRIEVAL_CONFIG,
+    VECTOR_STORE_CONFIG
+)
+
+__all__ = [
+    'HEADER_FOOTER_PATTERNS',
+    'GARBLED_PATTERNS',
+    'TEXT_SEPARATORS',
+    'DEFAULT_CHUNK_SIZE',
+    'DEFAULT_CHUNK_OVERLAP',
+    'CLEANING_CONFIG',
+    'PDF_LOADER_CONFIG',
+    'TEXT_LOADER_CONFIG',
+    'WORD_LOADER_CONFIG',
+    'UNIVERSAL_LOADER_CONFIG',
+    'BATCH_LOADER_CONFIG',
+    'LOADER_CONFIG',
+    'EMBEDDING_CONFIG',
+    'FAISS_CONFIG',
+    'RETRIEVAL_CONFIG',
+    'VECTOR_STORE_CONFIG'
+]
