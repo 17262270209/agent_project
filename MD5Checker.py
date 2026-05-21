@@ -113,6 +113,14 @@ class MD5Checker:
             return True
         return False
 
+    def remove_by_md5(self, md5: str) -> bool:
+        """通过MD5直接移除记录，无需读取文件"""
+        if md5 in self.uploaded_files:
+            del self.uploaded_files[md5]
+            self._save_index()
+            return True
+        return False
+
     def get_uploaded_list(self) -> list:
         """
         获取所有已上传文件列表

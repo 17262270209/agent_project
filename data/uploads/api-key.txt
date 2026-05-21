@@ -1,9 +1,0 @@
-deepseek
-base_url：https://api.deepseek.com /
-model：deepseek-chat
-sk-3a913f4874cf4f4fbf24c6bd24cc3c5d
-
-qwen
-base_url：https://dashscope.aliyuncs.com/compatible-mode/v1
-model：qwen3.6-plus
-sk-daaae1a41f3e4fa4a596d80c4628c321

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>多领域智能问答系统</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css" />
+  <script src="https://unpkg.com/echarts@5/dist/echarts.min.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+  <script src="https://unpkg.com/element-plus/dist/index.full.min.js"></script>
+  <script src="https://unpkg.com/vue-router@4/dist/vue-router.global.prod.js"></script>
+  <script src="https://unpkg.com/pinia/dist/pinia.iife.prod.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif}
+    .flex{display:flex}.flex-col{flex-direction:column}.gap2{gap:20px}.gap3{gap:12px}
+    .f1{flex:1}.sh0{flex-shrink:0}
+    .bgw{background:#fff}.bgf{background:#f5f7fa}
+    .r8{border-radius:8px}.oh{overflow:hidden}.oya{overflow-y:auto}
+    .p20{padding:20px}.p16{padding:16px}.px20{padding:0 20px}
+    .h100vh{height:100vh}.h100p{height:100%}
+    .oh{overflow:hidden}
+    .chat-page{display:flex;height:calc(100vh - 56px);gap:20px}
+    .chat-main{flex:1;display:flex;flex-direction:column;background:#fff;border-radius:8px;overflow:hidden}
+    .chat-header{padding:16px 20px;border-bottom:1px solid #ebeef5;display:flex;justify-content:space-between;align-items:center}
+    .chat-messages{flex:1;padding:0 20px;overflow-y:auto}
+    .chat-input-box{padding:16px 20px;border-top:1px solid #ebeef5;background:#fafafa}
+    .chat-sidebar{width:260px;flex-shrink:0;display:flex;flex-direction:column;gap:16px}
+    .side-card{background:#fff;border-radius:8px;padding:16px}
+    .side-card h4{margin:0 0 12px;font-size:14px;color:#303133}
+    .quick-btn{display:block;width:100%;margin-bottom:8px;justify-content:flex-start}
+    .msg-row{display:flex;gap:12px;padding:16px 0}
+    .msg-row.user{flex-direction:row-reverse}
+    .msg-avatar{flex-shrink:0}
+    .msg-body{max-width:70%}
+    .msg-role{font-size:12px;color:#909399;margin-bottom:4px}
+    .msg-row.user .msg-role{text-align:right}
+    .msg-content{padding:12px 16px;border-radius:8px;line-height:1.6;font-size:14px;word-break:break-word}
+    .msg-row.ai .msg-content{background:#f0f2f5;color:#303133}
+    .msg-row.user .msg-content{background:#409eff;color:#fff}
+    .page-title{margin:0 0 20px;font-size:18px}
+    .card-hdr{display:flex;justify-content:space-between;align-items:center}
+    .stat-card{text-align:center;padding:10px}
+    .stat-num{font-size:28px;font-weight:bold;color:#409eff}
+    .stat-lbl{font-size:13px;color:#909399;margin-top:6px}
+    .sr-item{padding:8px;border-bottom:1px solid #ebeef5}
+    .sr-idx{font-size:12px;color:#909399;margin-bottom:4px}
+    .sr-txt{font-size:13px;line-height:1.5;color:#303133}
+    .sess-item{padding:12px 16px;border-bottom:1px solid #ebeef5;cursor:pointer;border-radius:4px;margin-bottom:4px}
+    .sess-item:hover{background:#f5f7fa}
+    .sess-item.active{background:#ecf5ff;border-left:3px solid #409eff}
+    .sess-title{font-size:14px;color:#303133;margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .sess-info{font-size:12px;color:#909399;display:flex;justify-content:space-between}
+    .hist-msg{padding:10px 0;border-bottom:1px solid #f0f0f0}
+    .hist-msg .hrole{font-size:12px;color:#909399;margin-bottom:4px}
+    .hist-msg .htext{font-size:14px;line-height:1.5;color:#303133;max-height:120px;overflow-y:auto}
+    .page-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+    .input-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+    .input-hint{font-size:12px;color:#c0c4cc}
+    .empty-box{display:flex;align-items:center;justify-content:center;height:100%}
+    .el-menu{border-right:none!important}
+    .thinking-dots{display:inline-block}.thinking-dots span{animation:blink 1.4s infinite both}.thinking-dots span:nth-child(2){animation-delay:0.2s}.thinking-dots span:nth-child(3){animation-delay:0.4s}@keyframes blink{0%,80%,100%{opacity:0}40%{opacity:1}}
+  </style>
+</head>
+<body>
+<div id="app">
+  <el-container style="height:100vh">
+    <el-aside width="220px" style="background:#304156;overflow-x:hidden">
+      <div style="padding:20px 16px;text-align:center">
+        <h2 style="color:#fff;font-size:16px;margin:0;white-space:nowrap">🤖 智能问答系统</h2>
+      </div>
+      <el-menu default-active="/chat" background-color="#304156" text-color="#bfcbd9" active-text-color="#409eff" router>
+        <el-menu-item index="/chat"><span>💬 智能问答</span></el-menu-item>
+        <el-menu-item index="/knowledge"><span>📁 知识库管理</span></el-menu-item>
+        <el-menu-item index="/statistics"><span>📊 数据统计</span></el-menu-item>
+        <el-menu-item index="/history"><span>🕐 会话历史</span></el-menu-item>
+        <el-menu-item index="/config"><span>⚙️ 系统配置</span></el-menu-item>
+      </el-menu>
+    </el-aside>
+    <el-main style="background:#f5f7fa;padding:20px;overflow-y:auto">
+      <router-view></router-view>
+    </el-main>
+  </el-container>
+</div>
+
+<!-- Config Page Template -->
+<template id="tmpl-config">
+<div>
+  <h3 class="page-title">系统配置</h3>
+  <el-row :gutter="20">
+    <el-col :span="14">
+      <el-card>
+        <template #header><span>LLM 配置</span></template>
+        <el-form :model="llm" label-width="110px" size="default">
+          <el-form-item label="模型名称"><el-input v-model="llm.model_name" /></el-form-item>
+          <el-form-item label="API URL"><el-input v-model="llm.base_url" /></el-form-item>
+          <el-form-item label="API Key"><el-input v-model="llm.api_key" type="password" show-password /></el-form-item>
+          <el-form-item label="温度"><el-slider v-model="llm.temperature" :min="0" :max="2" :step="0.1" show-input /></el-form-item>
+          <el-form-item label="最大Token"><el-input-number v-model="llm.max_tokens" :min="100" :max="8000" /></el-form-item>
+          <el-form-item><el-button type="primary" @click="saveLLM">保存 LLM 配置</el-button></el-form-item>
+        </el-form>
+      </el-card>
+      <el-card style="margin-top:20px">
+        <template #header><span>检索配置</span></template>
+        <el-form :model="ret" label-width="110px" size="default">
+          <el-form-item label="默认检索数(k)"><el-input-number v-model="ret.default_k" :min="1" :max="20" /></el-form-item>
+          <el-form-item label="相似度阈值"><el-slider v-model="ret.score_threshold" :min="0" :max="1" :step="0.05" show-input /></el-form-item>
+          <el-form-item><el-button type="primary" @click="saveRetrieval">保存检索配置</el-button></el-form-item>
+        </el-form>
+      </el-card>
+    </el-col>
+    <el-col :span="10">
+      <el-card>
+        <template #header><span>系统信息</span></template>
+        <el-descriptions :column="1" size="small" border>
+          <el-descriptions-item label="Python">{{ logs.system_info?.python || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="Django">4.2</el-descriptions-item>
+          <el-descriptions-item label="FAISS">1.7+</el-descriptions-item>
+          <el-descriptions-item label="Embedding">{{ logs.system_info?.embedding_model || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="LLM模型">{{ logs.system_info?.llm_model || '-' }}</el-descriptions-item>
+        </el-descriptions>
+      </el-card>
+      <el-card style="margin-top:20px">
+        <template #header><span>操作</span></template>
+        <el-button type="danger" @click="handleRestart" style="width:100%;margin-bottom:8px">重启系统</el-button>
+        <el-button @click="handleClearCache" style="width:100%">清除缓存</el-button>
+      </el-card>
+    </el-col>
+  </el-row>
+</div>
+</template>
+
+<!-- Statistics Page Template -->
+<template id="tmpl-statistics">
+<div>
+  <h3 class="page-title">数据统计</h3>
+  <el-row :gutter="20">
+    <el-col :span="6"><el-card class="stat-card"><div class="stat-num">{{ stats.sessions_count||0 }}</div><div class="stat-lbl">会话总数</div></el-card></el-col>
+    <el-col :span="6"><el-card class="stat-card"><div class="stat-num">{{ stats.total_messages||0 }}</div><div class="stat-lbl">总消息数</div></el-card></el-col>
+    <el-col :span="6"><el-card class="stat-card"><div class="stat-num">{{ stats.documents_count||0 }}</div><div class="stat-lbl">文档数量</div></el-card></el-col>
+    <el-col :span="6"><el-card class="stat-card"><div class="stat-num">{{ stats.vector_store?.vector_count||0 }}</div><div class="stat-lbl">向量数量</div></el-card></el-col>
+  </el-row>
+  <el-row :gutter="20" style="margin-top:20px">
+    <el-col :span="12">
+      <el-card>
+        <template #header><span>消息分布</span></template>
+        <div ref="chartEl" style="height:300px"></div>
+      </el-card>
+    </el-col>
+    <el-col :span="12">
+      <el-card>
+        <template #header><span>系统负载</span></template>
+        <el-progress :percentage="60" :stroke-width="20" style="margin-bottom:20px"><span>系统负载 60%</span></el-progress>
+        <el-progress :percentage="85" :stroke-width="20" status="success"><span>知识库完整性 85%</span></el-progress>
+      </el-card>
+    </el-col>
+  </el-row>
+</div>
+</template>
+
+<!-- History Page Template -->
+<template id="tmpl-history">
+<div>
+  <div class="page-hdr"><h3 class="page-title" style="margin:0">会话历史</h3><el-button @click="loadSessions">刷新列表</el-button></div>
+  <el-row :gutter="20">
+    <el-col :span="10">
+      <el-card>
+        <template #header><div style="display:flex;justify-content:space-between;align-items:center"><span>会话列表 ({{filteredSessions.length}})</span></div></template>
+        <el-input v-model="searchText" placeholder="搜索会话..." clearable size="small" style="margin-bottom:12px" :prefix-icon="null"><template #prefix><span style="font-size:13px">🔍</span></template></el-input>
+        <div v-if="!filteredSessions.length" class="empty-box" style="padding:40px"><el-empty :description="sessions.length?'无匹配会话':'暂无会话'" /></div>
+        <div v-for="s in filteredSessions" :key="s.session_id" class="sess-item" :class="{active:sel?.session_id===s.session_id}" @click="select(s)">
+          <div class="sess-title">{{s.title}}</div>
+          <div class="sess-info"><span>{{s.message_count}} 条消息</span><span>{{fmt(s.updated_at)}}</span></div>
+        </div>
+      </el-card>
+    </el-col>
+    <el-col :span="14">
+      <el-card>
+        <template #header>
+          <div class="card-hdr">
+            <span>{{sel?sel.title:'会话详情'}}</span>
+            <div v-if="sel">
+              <el-button size="small" type="primary" @click="goChat">继续此会话</el-button>
+              <el-button size="small" type="danger" @click="del">删除</el-button>
+            </div>
+          </div>
+        </template>
+        <div v-if="!sel" class="empty-box" style="padding:40px"><el-empty description="请选择会话" /></div>
+        <div v-else style="max-height:500px;overflow-y:auto">
+          <div v-for="(m,i) in msgs" :key="i" class="hist-msg">
+            <div class="hrole">{{m.role==='human'?'用户':'AI助手'}}</div>
+            <div class="htext">{{m.content}}</div>
+          </div>
+        </div>
+      </el-card>
+    </el-col>
+  </el-row>
+</div>
+</template>
+
+<!-- Knowledge Page Template -->
+<template id="tmpl-knowledge">
+<div>
+  <h3 class="page-title">知识库管理</h3>
+  <el-row :gutter="20">
+    <el-col :span="14">
+      <el-card>
+        <template #header><span>上传文档</span></template>
+        <el-upload ref="uploadRef" :auto-upload="false" multiple drag accept=".pdf,.txt,.docx,.doc,.md,.csv,.json" @change="onFileChange" :show-file-list="true">
+          <span style="font-size:48px">📤</span>
+          <div class="el-upload__text">将文件拖到此处，或 <em>点击上传</em>（选择后自动处理）</div>
+          <template #tip><div style="font-size:12px;color:#909399;margin-top:4px">支持 PDF、TXT、DOCX、DOC、MD、CSV、JSON，选择文件后自动上传构建</div></template>
+        </el-upload>
+        <div v-if="uploading" style="text-align:center;margin-top:14px;padding:16px;background:#ecf5ff;border-radius:8px">
+          <el-progress :percentage="100" :indeterminate="true" :stroke-width="6" /><div style="margin-top:8px;font-size:13px;color:#409eff">⏳ 正在处理文档，请稍候...</div>
+        </div>
+        <div v-if="uploadResult" style="margin-top:14px;padding:14px;background:#f0f9eb;border-radius:8px;font-size:13px;color:#67c23a">
+          ✅ 上传成功！处理 {{uploadResult.files}} 个文件，生成 {{uploadResult.chunks}} 个文档块 ({{uploadResult.vectors}} 条向量)
+        </div>
+      </el-card>
+      <el-card style="margin-top:20px">
+        <template #header><div class="card-hdr"><span>已上传文档</span><el-button size="small" @click="loadStatus">刷新</el-button></div></template>
+        <el-table :data="docs" size="small" empty-text="暂无已上传文档" style="width:100%">
+          <el-table-column label="文件名" min-width="180" show-overflow-tooltip><template #default="{row}"><span>{{row.filename||row.file_path||'-'}}</span></template></el-table-column>
+          <el-table-column label="上传时间" width="150"><template #default="{row}"><span style="font-size:12px;color:#909399">{{row.upload_time||'-'}}</span></template></el-table-column>
+          <el-table-column label="操作" width="80" fixed="right"><template #default="{row}"><el-button size="small" type="danger" @click="delDoc(row.md5)">删除</el-button></template></el-table-column>
+        </el-table>
+      </el-card>
+    </el-col>
+    <el-col :span="10">
+      <el-card>
+        <template #header><span>知识库状态</span></template>
+        <el-descriptions :column="1" size="small" border>
+          <el-descriptions-item label="状态"><el-tag :type="status.vector_store?.loaded?'success':'warning'">{{status.vector_store?.loaded?'已加载':'未加载'}}</el-tag></el-descriptions-item>
+          <el-descriptions-item label="向量数量">{{status.vector_store?.vector_count||0}}</el-descriptions-item>
+          <el-descriptions-item label="文档数量">{{status.document_count||0}}</el-descriptions-item>
+        </el-descriptions>
+        <el-button type="warning" @click="rebuild" style="margin-top:16px;width:100%">重建知识库</el-button>
+      </el-card>
+      <el-card style="margin-top:20px">
+        <template #header><span>测试检索</span></template>
+        <el-input v-model="sq" placeholder="输入查询..." @keydown.enter="search" />
+        <el-button type="primary" @click="search" :loading="searching" style="margin-top:8px;width:100%">搜索</el-button>
+        <div v-if="results.length" style="margin-top:12px">
+          <div v-for="r in results" :key="r.index" class="sr-item">
+            <div class="sr-idx">#{{r.index}} {{r.source}}</div>
+            <div class="sr-txt">{{r.content}}</div>
+          </div>
+        </div>
+      </el-card>
+    </el-col>
+  </el-row>
+</div>
+</template>
+
+<!-- Chat Page Template -->
+<template id="tmpl-chat">
+<div class="chat-page">
+  <div class="chat-main">
+    <div class="chat-header">
+      <h3 style="margin:0;font-size:16px">智能问答</h3>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:12px;color:#909399">会话: {{sid}}</span>
+        <el-button size="small" @click="newSess">新建会话</el-button>
+      </div>
+    </div>
+    <div class="chat-messages" ref="msgBox">
+      <div v-if="!msgs.length && !streamTxt" class="empty-box"><el-empty description="开始提问吧" /></div>
+      <div v-for="m in msgs" :key="m.id" class="msg-row" :class="m.role">
+        <div class="msg-avatar"><el-avatar :size="36" :style="{backgroundColor:m.role==='human'?'#409eff':'#67c23a'}">{{m.role==='human'?'我':'AI'}}</el-avatar></div>
+        <div class="msg-body">
+          <div class="msg-role">{{m.role==='human'?'用户':'AI助手'}}</div>
+          <div class="msg-content" v-html="m.content.replace(/\n/g,'<br>')"></div>
+        </div>
+      </div>
+      <div v-if="streaming&&!streamTxt" class="msg-row ai">
+        <div class="msg-avatar"><el-avatar :size="36" style="background:#67c23a">AI</el-avatar></div>
+        <div class="msg-body"><div class="msg-role">AI助手</div><div class="msg-content" style="color:#909399">正在思考<span class="thinking-dots"><span>.</span><span>.</span><span>.</span></span></div></div>
+      </div>
+      <div v-if="streaming&&streamTxt" class="msg-row ai">
+        <div class="msg-avatar"><el-avatar :size="36" style="background:#67c23a">AI</el-avatar></div>
+        <div class="msg-body"><div class="msg-role">AI助手</div><div class="msg-content" v-html="streamTxt.replace(/\n/g,'<br>')"></div></div>
+      </div>
+    </div>
+    <div class="chat-input-box">
+      <el-input v-model="txt" :rows="2" type="textarea" placeholder="输入问题，Enter 发送，Shift+Enter 换行" @keydown.enter="onEnter" resize="none" />
+      <div class="input-row">
+        <span class="input-hint">Enter 发送 ｜ Shift+Enter 换行</span>
+        <el-button type="primary" size="large" @click="send" :loading="streaming" :disabled="!txt.trim()">
+          <span v-if="streaming">⏳ 响应中...</span>
+          <span v-else>➤ 发送</span>
+        </el-button>
+      </div>
+    </div>
+  </div>
+  <div class="chat-sidebar">
+    <div class="side-card">
+      <h4>快捷问题</h4>
+      <el-button v-for="q in quickQs" :key="q.id" size="small" class="quick-btn" @click="txt=q.text;send()">{{q.text}}</el-button>
+    </div>
+    <div class="side-card">
+      <h4>检索参数</h4>
+      <label style="font-size:13px;color:#606266">检索数量 (k)</label>
+      <el-slider v-model="rk" :min="1" :max="10" show-input />
+    </div>
+  </div>
+</div>
+</template>
+
+<script>
+// ========== API 封装 ==========
+const api = axios.create({ baseURL: '/api', timeout: 60000 });
+api.interceptors.response.use(r => r.data, err => {
+  ElementPlus.ElMessage.error(err.response?.data?.error || err.message || '请求失败');
+  return Promise.reject(err);
+});
+const chatAPI = {
+  getSessions: ()=>api.get('/chat/sessions/'),
+  getSessionDetail: (id)=>api.get(`/chat/sessions/${id}/`),
+  deleteSession: (id)=>api.delete(`/chat/sessions/${id}/`),
+  continueSession: (id)=>api.post(`/chat/sessions/${id}/continue/`),
+  getQuickQuestions: ()=>api.get('/chat/quick-questions/'),
+  sendMessage: (q,sid,k=5)=>fetch('/api/chat/send/',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({query:q,session_id:sid,k})})
+};
+const knowledgeAPI = {
+  getStatus: ()=>api.get('/knowledge/status/'),
+  uploadDocuments: (files)=>{const fd=new FormData();files.forEach(f=>fd.append('files',f));return api.post('/knowledge/upload/',fd,{headers:{'Content-Type':'multipart/form-data'}})},
+  deleteDocument: (md5)=>api.delete(`/knowledge/documents/${md5}/`),
+  searchTest: (q,k=5)=>api.post('/knowledge/search/',{query:q,k}),
+  rebuild: ()=>api.post('/knowledge/rebuild/')
+};
+const systemAPI = {
+  getStatistics: ()=>api.get('/system/statistics/'),
+  getConfig: ()=>api.get('/system/config/'),
+  updateConfig: (d)=>api.put('/system/config/',d),
+  getLogs: ()=>api.get('/system/logs/')
+};
+
+// ========== 全局消息状态 ==========
+const chatState = Vue.reactive({ messages: [] });
+
+// ========== 会话ID生成 ==========
+function genSid(){const d=new Date();return'session_'+d.toISOString().replace(/[-:]/g,'').replace(/\..+/,'').replace('T','_')}
+
+// ========== 聊天页 ==========
+const ChatPage = {
+  template: '#tmpl-chat',
+  data(){return{txt:'',streamTxt:'',streaming:false,rk:5,quickQs:[],sid:genSid()}},
+  computed:{msgs(){return chatState.messages}},
+  methods:{
+    scroll(){this.$nextTick(()=>{const b=this.$refs.msgBox;if(b)b.scrollTop=b.scrollHeight})},
+    newSess(){this.sid=genSid();chatState.messages=[]},
+    onEnter(e){if(e.shiftKey)return;e.preventDefault();this.send()},
+    async send(){
+      const q=this.txt.trim();if(!q||this.streaming)return;
+      chatState.messages.push({role:'human',content:q,id:Date.now()});this.txt='';this.scroll();
+      this.streaming=true;this.streamTxt='';
+      try{
+        const r=await chatAPI.sendMessage(q,this.sid,this.rk);
+        const reader=r.body.getReader();const dec=new TextDecoder();let buf='';
+        while(true){const{value,done}=await reader.read();if(done)break;
+          buf+=dec.decode(value,{stream:true});const lines=buf.split('\n');buf=lines.pop()||'';
+          for(const l of lines){if(!l.startsWith('data: '))continue;
+            try{const d=JSON.parse(l.slice(6));if(d.done){chatState.messages.push({role:'ai',content:this.streamTxt,id:Date.now()});this.streamTxt=''}else if(d.content){this.streamTxt+=d.content;this.scroll()}}catch(e){}
+          }
+        }
+      }catch(e){ElementPlus.ElMessage.error('请求失败: '+e.message)}finally{this.streaming=false}
+    }
+  },
+  mounted(){chatAPI.getQuickQuestions().then(d=>{this.quickQs=d.questions||[]})}
+};
+
+// ========== 知识库页 ==========
+const KnowledgePage = {
+  template: '#tmpl-knowledge',
+  data(){return{uploading:false,uploadResult:null,docs:[],status:{},sq:'',results:[],searching:false}},
+  methods:{
+    loadStatus(){knowledgeAPI.getStatus().then(d=>{this.status=d;this.docs=d.documents||[]}).catch(()=>{})},
+    onFileChange(file, fileList){
+      // 收集所有待上传文件的原始 File 对象
+      const collectFiles = () => {
+        const refFiles = this.$refs.uploadRef?.uploadFiles || fileList || [];
+        return refFiles.map(f => f.raw || f).filter(f => f instanceof File);
+      };
+      if(this.uploading) return;
+      clearTimeout(this._uploadTimer);
+      // 延迟 500ms，批量多文件选择
+      this._uploadTimer = setTimeout(() => {
+        const files = collectFiles();
+        if(!files.length) return;
+        this.uploading = true;
+        this.uploadResult = null;
+        knowledgeAPI.uploadDocuments(files).then(d => {
+          this.uploadResult = { files: files.length, chunks: d.added_chunks, vectors: d.total_vectors };
+          setTimeout(() => { this.uploadResult = null; }, 8000);
+          this.$refs.uploadRef.clearFiles();
+          this.loadStatus();
+        }).finally(() => { this.uploading = false });
+      }, 500);
+    },
+    delDoc(md5){
+      const mb = ElementPlus.ElMessageBox;
+      if(!mb || !mb.confirm){ knowledgeAPI.deleteDocument(md5).then(()=>{this.loadStatus();alert('已删除')}); return; }
+      mb.confirm('确定删除该文档?','提示',{type:'warning'}).then(()=>{
+        knowledgeAPI.deleteDocument(md5).then(()=>{this.loadStatus();ElementPlus.ElMessage.success('已删除')}).catch(e=>{alert('删除失败: '+(e.response?.data?.error||e.message))});
+      }).catch(()=>{});
+    },
+    search(){if(!this.sq.trim())return;this.searching=true;knowledgeAPI.searchTest(this.sq).then(d=>{this.results=d.results||[]}).finally(()=>{this.searching=false})},
+    rebuild(){ElementPlus.ElMessageBox.confirm('确定重建?','提示',{type:'warning'}).then(()=>{knowledgeAPI.rebuild().then(d=>{this.loadStatus();ElementPlus.ElMessage.success('重建完成')})}).catch(()=>{})}
+  },
+  mounted(){this.loadStatus()}
+};
+
+// ========== 统计页 ==========
+const StatisticsPage = {
+  template: '#tmpl-statistics',
+  data(){return{stats:{}}},
+  mounted(){
+    systemAPI.getStatistics().then(d=>{this.stats=d;this.$nextTick(()=>{
+      const dom=this.$refs.chartEl;if(!dom)return;
+      const c=echarts.init(dom);c.setOption({tooltip:{trigger:'axis'},legend:{data:['用户消息','AI消息']},xAxis:{type:'category',data:['消息统计']},yAxis:{type:'value'},series:[{name:'用户消息',type:'bar',data:[this.stats.human_messages||0],color:'#409eff'},{name:'AI消息',type:'bar',data:[this.stats.ai_messages||0],color:'#67c23a'}]})
+    })})
+  }
+};
+
+// ========== 历史页 ==========
+const HistoryPage = {
+  template: '#tmpl-history',
+  data(){return{sessions:[],sel:null,msgs:[],searchText:''}},
+  computed:{
+    filteredSessions(){
+      let list = [...this.sessions];
+      list.sort((a,b)=>(b.updated_at||0)-(a.updated_at||0));
+      if(this.searchText.trim()){
+        const kw = this.searchText.trim().toLowerCase();
+        list = list.filter(s=>s.title.toLowerCase().includes(kw)||s.session_id.toLowerCase().includes(kw));
+      }
+      return list;
+    }
+  },
+  methods:{
+    loadSessions(){chatAPI.getSessions().then(d=>{this.sessions=d.sessions||[];this.searchText='';this.sel=null;this.msgs=[]})},
+    select(s){this.sel=s;chatAPI.getSessionDetail(s.session_id).then(d=>{this.msgs=d.messages||[]})},
+    fmt(ts){return ts?new Date(ts*1000).toLocaleString('zh-CN'):''},
+    goChat(){chatAPI.continueSession(this.sel.session_id).then(d=>{chatState.messages=d.messages||[];this.$router.push('/chat')})},
+    del(){ElementPlus.ElMessageBox.confirm('确定删除?','提示',{type:'warning'}).then(()=>{chatAPI.deleteSession(this.sel.session_id).then(()=>{this.sel=null;this.msgs=[];this.loadSessions()})}).catch(()=>{})}
+  },
+  mounted(){this.loadSessions()}
+};
+
+// ========== 配置页 ==========
+const ConfigPage = {
+  template: '#tmpl-config',
+  data(){return{llm:{model_name:'',base_url:'',api_key:'',temperature:0.7,max_tokens:2000},ret:{default_k:5,score_threshold:0.7},logs:{}}},
+  methods:{
+    saveLLM(){systemAPI.updateConfig({llm:{...this.llm}}).then(()=>ElementPlus.ElMessage.success('LLM配置已保存'))},
+    saveRetrieval(){systemAPI.updateConfig({retrieval:{...this.ret}}).then(()=>ElementPlus.ElMessage.success('检索配置已保存'))},
+    handleRestart(){ElementPlus.ElMessage.info('系统重启中...')},
+    handleClearCache(){ElementPlus.ElMessage.success('缓存已清除')}
+  },
+  mounted(){systemAPI.getConfig().then(d=>{if(d.llm)Object.assign(this.llm,d.llm);if(d.retrieval)Object.assign(this.ret,d.retrieval)});systemAPI.getLogs().then(d=>{this.logs=d})}
+};
+
+// ========== 路由 & 启动 ==========
+const router = VueRouter.createRouter({
+  history: VueRouter.createWebHashHistory(),
+  routes: [
+    { path: '/', redirect: '/chat' },
+    { path: '/chat', component: ChatPage },
+    { path: '/knowledge', component: KnowledgePage },
+    { path: '/statistics', component: StatisticsPage },
+    { path: '/history', component: HistoryPage },
+    { path: '/config', component: ConfigPage }
+  ]
+});
+
+const app = Vue.createApp({});
+app.use(Pinia.createPinia());
+app.use(router);
+app.use(ElementPlus);
+app.mount('#app');
+</script>
+</body>
+</html>

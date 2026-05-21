@@ -1,38 +1,104 @@
 {
-  "6d258f1fcead6b1ec2eb00eb9bbf7a52": {
-    "filename": "测试版本.docx",
-    "file_path": "data/uploads\\测试版本.docx",
-    "upload_time": "2026-05-14 16:26:16",
-    "md5": "6d258f1fcead6b1ec2eb00eb9bbf7a52"
+  "edd32049cceee1f25f9f28c3020ab4c5": {
+    "filename": "test_upload.txt",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\test_upload.txt",
+    "upload_time": "2026-05-21 15:08:29",
+    "md5": "edd32049cceee1f25f9f28c3020ab4c5"
   },
-  "ebe659d11ec0bf68405593c35636cf5f": {
-    "filename": "实习单位接收函.docx",
-    "file_path": "data/uploads\\实习单位接收函.docx",
-    "upload_time": "2026-05-14 16:26:49",
-    "md5": "ebe659d11ec0bf68405593c35636cf5f"
+  "97c98dd0e9bfb5af68c8cdff202ed7fb": {
+    "filename": "各平台权益开通.docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\各平台权益开通.docx",
+    "upload_time": "2026-05-21 15:41:43",
+    "md5": "97c98dd0e9bfb5af68c8cdff202ed7fb"
   },
-  "358b8294d4aebfe2a1077aa9819d8897": {
-    "filename": "刘佳名（v5）毕业论文 .docx",
-    "file_path": "data/uploads\\刘佳名（v5）毕业论文 .docx",
-    "upload_time": "2026-05-14 16:45:24",
-    "md5": "358b8294d4aebfe2a1077aa9819d8897"
+  "83f18bb4beddb0b405ce701d83ada0f3": {
+    "filename": "三明学院 信息工程学院 实习有关表格.docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\三明学院 信息工程学院 实习有关表格.docx",
+    "upload_time": "2026-05-21 15:43:25",
+    "md5": "83f18bb4beddb0b405ce701d83ada0f3"
   },
-  "800ee73d68ce240e9506a6f901ef805b": {
-    "filename": "基于 轻量级 CNN.docx",
-    "file_path": "data/uploads\\基于 轻量级 CNN.docx",
-    "upload_time": "2026-05-19 15:24:38",
-    "md5": "800ee73d68ce240e9506a6f901ef805b"
+  "bae71c5cacdf3d979e06c0c4319d17a8": {
+    "filename": "三明学院 信息工程学院 院学生实习申请书.docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\三明学院 信息工程学院 院学生实习申请书.docx",
+    "upload_time": "2026-05-21 15:43:25",
+    "md5": "bae71c5cacdf3d979e06c0c4319d17a8"
   },
-  "c23b02c8151ecbf5a55bf107af39d807": {
-    "filename": "api-key.txt",
-    "file_path": "data/uploads\\api-key.txt",
-    "upload_time": "2026-05-19 15:47:24",
-    "md5": "c23b02c8151ecbf5a55bf107af39d807"
+  "3160bd2266ec28a59e27ae621ca42147": {
+    "filename": "三明学院非师范生实习情况反馈表.docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\三明学院非师范生实习情况反馈表.docx",
+    "upload_time": "2026-05-21 15:43:25",
+    "md5": "3160bd2266ec28a59e27ae621ca42147"
   },
-  "a25e58de9553c18bc6c9ce0845f948d6": {
-    "filename": "附件2：2026届非师范生毕业实习有关表格.docx",
-    "file_path": "data/uploads\\附件2：2026届非师范生毕业实习有关表格.docx",
-    "upload_time": "2026-05-19 16:19:13",
-    "md5": "a25e58de9553c18bc6c9ce0845f948d6"
+  "13f98a2783f758499335344d54242ea8": {
+    "filename": "三明学院学生实习安全协议书.docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\三明学院学生实习安全协议书.docx",
+    "upload_time": "2026-05-21 15:43:25",
+    "md5": "13f98a2783f758499335344d54242ea8"
+  },
+  "5734c1e6423f9f46e820497ddb247b7e": {
+    "filename": "2022级人工智能专业第二学堂.docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\2022级人工智能专业第二学堂.docx",
+    "upload_time": "2026-05-21 16:22:20",
+    "md5": "5734c1e6423f9f46e820497ddb247b7e"
+  },
+  "54fb8a05ce127a5fd508b90393868aa3": {
+    "filename": "20220868246刘佳名个人简历 .docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\20220868246刘佳名个人简历 .docx",
+    "upload_time": "2026-05-21 16:22:20",
+    "md5": "54fb8a05ce127a5fd508b90393868aa3"
+  },
+  "79f56fbdeea87207b84d4c199794f731": {
+    "filename": "20220868246刘佳名个人简历(原版).docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\20220868246刘佳名个人简历(原版).docx",
+    "upload_time": "2026-05-21 16:22:20",
+    "md5": "79f56fbdeea87207b84d4c199794f731"
+  },
+  "1ff3d68fb8010d1de56d6f54b12814c9": {
+    "filename": "第二课堂学分申请表(填写模版及注意事项).docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\第二课堂学分申请表(填写模版及注意事项).docx",
+    "upload_time": "2026-05-21 16:22:20",
+    "md5": "1ff3d68fb8010d1de56d6f54b12814c9"
+  },
+  "a4db11b15d50c1f1f1ff304f1c003f66": {
+    "filename": "附件2空白：2026届非师范生毕业实习有关表格.docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\附件2空白：2026届非师范生毕业实习有关表格.docx",
+    "upload_time": "2026-05-21 16:22:21",
+    "md5": "a4db11b15d50c1f1f1ff304f1c003f66"
+  },
+  "61907211f0b32598d0ef0b159096a008": {
+    "filename": "简历刘佳名.docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\简历刘佳名.docx",
+    "upload_time": "2026-05-21 16:22:21",
+    "md5": "61907211f0b32598d0ef0b159096a008"
+  },
+  "a4cb2b3bd130067749638dc30396786f": {
+    "filename": "刘佳名_简历.docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\刘佳名_简历.docx",
+    "upload_time": "2026-05-21 16:22:21",
+    "md5": "a4cb2b3bd130067749638dc30396786f"
+  },
+  "d15cab770696217b1bff84bd8f582b20": {
+    "filename": "刘佳名_简历.pdf",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\刘佳名_简历.pdf",
+    "upload_time": "2026-05-21 16:22:21",
+    "md5": "d15cab770696217b1bff84bd8f582b20"
+  },
+  "38e8db829b96a041dde7e52ae5ba6fb9": {
+    "filename": "模板：西部计划放弃声明.docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\模板：西部计划放弃声明.docx",
+    "upload_time": "2026-05-21 16:22:21",
+    "md5": "38e8db829b96a041dde7e52ae5ba6fb9"
+  },
+  "4e7acc6bc06b01bc900d1ff0e51cb3f6": {
+    "filename": "西部计划放弃声明.docx",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\西部计划放弃声明.docx",
+    "upload_time": "2026-05-21 16:22:21",
+    "md5": "4e7acc6bc06b01bc900d1ff0e51cb3f6"
+  },
+  "a294e30df1e76a3bc99b6240f64eecb7": {
+    "filename": "重点学习.txt",
+    "file_path": "E:\\基于 LangChain + FAISS 的多领域智能问答智能体开发\\data\\uploads\\重点学习.txt",
+    "upload_time": "2026-05-21 16:22:21",
+    "md5": "a294e30df1e76a3bc99b6240f64eecb7"
   }
 }
